@@ -3,18 +3,17 @@
 # Read `man 5 sway` for a complete reference.
 
 include /etc/sway/config-vars.d/*
+include ~/.dotfiles/sway/config.private
 
-# * Variables
-#
 # Logo (Super) key. Use Mod1 for Alt.
 set $mod Mod4
+
 set $left h
 set $down j
 set $up k
 set $right l
 
 set $term alacritty
-set $wallpaper /home/tofs/Pictures/Wallpapers/1363709.png
 set $menu "rofi -modi drun,run -show drun"
 
 font 'CaskaydiaMono Nerd Font' 9
@@ -27,25 +26,24 @@ workspace_layout tabbed
 gaps inner 0
 smart_gaps on
 smart_borders on
-default_border pixel 1
+default_border pixel 3
 
 xwayland enable
-
-# Drag floating windows by holding down $mod and left mouse button.
-# Resize them with right mouse button + $mod.
-# Despite the name, also works for non-floating windows.
-# Change normal to inverse to use left mouse button for resizing and right
-# mouse button for dragging.
 floating_modifier $mod normal
 
-# Load GTK Settings, dark style
+# Load GTK Settings
 exec --no-startup-id /usr/libexec/gsd-xsettings
 exec --no-startup-id gsettings set org.gnome.desktop.interface color-scheme prefer-dark
+# Fixed slow GTK app startup, e.g Firefox https://github.com/swaywm/sway/issues/5732#issuecomment-731466006
+exec_always "systemctl --user import-environment"
+
+exec --no-startup-id /usr/bin/lxpolkit
 
 # * Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg $wallpaper fill
+output * bg ~/Pictures/Wallpapers/1341864.png fill
+# output * bg ~/Pictures/Wallpapers/1337222.jpeg fill
 # output * bg #000000 solid_color
 #
 # Example configuration:
@@ -59,9 +57,6 @@ output * bg $wallpaper fill
 # Notification Daemon
 exec swaync
 
-# Toggle control center
-bindsym $mod+n exec swaync-client -t -sw
-
 # * Idle configuration
 #
 # This will lock your screen after 300 seconds of inactivity, then turn off
@@ -72,20 +67,18 @@ bindsym $mod+n exec swaync-client -t -sw
 #          timeout 300 'swaylock -f -c 000000' \
 #          timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
 #          before-sleep 'swaylock -f -c 000000'
-
-# * Exec's
 #
 exec swayidle -w before-sleep 'swaylock -f -c 000000 --indicator-idle-visible'
 
-# Fixed slow GTK app startup, e.g Firefox https://github.com/swaywm/sway/issues/5732#issuecomment-731466006
-exec systemctl --user import-environment
-
 # Night light
-exec gammastep -O 3000
+exec gammastep -O 4000
 
 # * Input configuration
 # You can get the names of your inputs by running: swaymsg -t get_inputs
 # Read `man 5 sway-input` for more information about this section.
+#
+# also edited /usr/share/X11/xorg.conf.d/40-libinput.conf
+#
 input "type:touchpad" {
     dwt enabled
     tap enabled
@@ -96,25 +89,17 @@ input "type:touchpad" {
 input "type:keyboard" {
     xkb_layout "real-prog-dvorak,us"
     xkb_variant ""
-    xkb_options "ctrl:ralt_rctrl,altwin:swap_lalt_lwin,grp:alt_space_toggle"
+    xkb_options "grp:alt_space_toggle,altwin:swap_lalt_lwin,ctrl:swap_ralt_rctl"
 }
-
 
 bindsym $mod+t exec $term
 bindsym $mod+Shift+t exec gnome-terminal
 bindsym $mod+d exec $menu
 bindsym $mod+e exec nemo
-bindsym $mod+x exec firefox
-bindsym $mod+v exec vivaldi-stable --password-store=gnome-libsecret
 bindsym $mod+z exec flatpak run app.zen_browser.zen
+bindsym $mod+n exec swaync-client -t -sw
 
-# Clear clipboards
-bindsym $mod+Shift+v exec ~/.local/bin/clipdel -d ".*" && wl-copy --clear
-
-# Kill focused window
-bindsym $mod+Shift+q kill
-
-bindsym XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ --limit 1.0 
+bindsym XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ --limit 1.0
 bindsym XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
 bindsym XF86AudioMute exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
 
@@ -125,12 +110,16 @@ bindsym --release Shift+Print exec grim - | wl-copy -t image/png
 
 # Control Brightness; MUST DO: `usermod -aG video ${USER}` to use brightnessctl without sudo and logout (or reboot)
 bindcode 233 exec --no-startup-id brightnessctl set +10%
-# Make sure brightness is above the lowest, because u can set it to zero for some reason lol
 bindcode 232 exec --no-startup-id [ $(brightnessctl get) -gt 1920 ] && brightnessctl set 10%-
+
+# Kill focused window
+bindsym $mod+Shift+q kill
+
+# Clear clipboards
+bindsym $mod+Shift+v exec wl-copy --clear
 
 # Reload the configuration file
 bindsym $mod+Shift+c reload
-
 # Exit sway (logs you out of your Wayland session)
 bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
 
@@ -188,7 +177,7 @@ bindcode $mod+Shift+19 move container to workspace number 10
 bindsym $mod+s splith
 bindsym $mod+Shift+s splitv
 
-# Switch the current container between different layout styles
+# Switch the current container between different layout styles (orientation)
 bindsym $mod+Ctrl+o layout stacking
 bindsym $mod+Shift+o layout tabbed
 bindsym $mod+o layout toggle split
@@ -197,14 +186,18 @@ bindsym $mod+o layout toggle split
 bindsym $mod+f fullscreen
 
 # Toggle the current focus between tiling and floating mode
-bindsym $mod+Shift+space floating toggle
-
+# bindsym $mod+Shift+space floating toggle
+#
 # Swap focus between the tiling area and the floating area
-bindsym $mod+space focus mode_toggle
+# bindsym $mod+space focus mode_toggle
 
-# Move focus to the parent container
-bindsym $mod+p focus parent
-bindsym $mod+Shift+p focus child
+# TODO: Need better keybinds for this
+# bindsym $mod+p focus parent
+# bindsym $mod+Shift+p focus child
+
+# Marks
+bindsym --to-code $mod+m exec ~/.local/bin/sway-marker mark
+bindsym --to-code $mod+g exec ~/.local/bin/sway-marker goto
 
 # Scratchpad:
 #
@@ -247,18 +240,17 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
-set $black      #000000
-set $blackT     #000000AA
+set $black      #000000EE
 set $white      #ffffff
 set $red        #802000
 
 client.background #000000
 
-# class                 border    backgr.   text     indictr   child_brdr
-client.focused          $blackT   $blackT   $white   $black    #4d4d4d
-client.focused_inactive $blackT   $blackT   #bfbfbf  $black    $black
-client.unfocused        $blackT   $blackT   #737373  $black    $black
-client.urgent           $blackT   $blackT   #ff0000  $black    $red
+# class                 border    backgr.   text      indictr   child_brdr
+client.focused          $black    $black    $white    $black    #444444
+client.focused_inactive $black    $black    $white    $black    $black
+client.unfocused        $black    $black    #737373   $black    $black
+client.urgent           $black    $black    #ff0000   $black    $red
 
 # Status Bar:
 #

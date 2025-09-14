@@ -1,8 +1,8 @@
-/* 
+/*
  * lots of copy pasta from:
- * https://github.com/OriginCode/dotfiles 
- * https://github.com/lgaboury/Sway-Waybar-Install-Script 
- * https://github.com/lingllqs/dotfiles 
+ * https://github.com/OriginCode/dotfiles
+ * https://github.com/lgaboury/Sway-Waybar-Install-Script
+ * https://github.com/lingllqs/dotfiles
  */
 
 {
@@ -26,7 +26,7 @@
     "modules-center": [
     ],
     "modules-right": [
-        "mpris",
+        // "mpris",
         "tray",
         "wireplumber",
         "cpu",
@@ -45,8 +45,8 @@
 
     "sway/workspaces": {
         "all-outputs": false,
-        "warp-on-scroll": false,
-        "enable-bar-scroll": true,
+        "enable-bar-scroll": false,
+        "disable-scroll": true,
         "disable-scroll-wraparound": true,
         "format": "{name}",
     },
@@ -65,13 +65,13 @@
         "format-muted": "<span color='gray'>󰎇 {volume}%</span>",
         // "format-muted": "󰝟 {volume}%",
         // "format-icons": ["", "", ""],
-        "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
-        // "on-click-right": "pavucontrol"
+        "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+        "on-click-right": "swaymsg exec -- alacritty -e alsamixer"
     },
 
     "mpris": {
         "max-length": 70,
-        "format-playing": "󰲹 {dynamic}",
+        "format-playing": "󰝚 {dynamic}",
         "format-paused": " {dynamic}",
         "format": "{dynamic}",
         "interval": 1,
@@ -85,7 +85,7 @@
         // "design-capacity": true,
         "interval": 5,
         "states": {
-            "critical": 15
+            "critical": 20
         },
         "format": "{capacity}% {icon}",
         // "format-full": "{icon} {capacity}%",
@@ -113,8 +113,8 @@
     "memory": {
         "interval": 1,
         "states": {
-            "warning": 70,
-            "critical": 85
+            "warning": 75,
+            "critical": 90
         },
         "format": " {percentage}%",
         "tooltip-format": "{used:0.1f}G / {total:0.1f}G",
@@ -124,7 +124,7 @@
     "cpu": {
         "interval": 1,
         "format": "{icon0}{icon1}{icon2}{icon3}{icon4}{icon5}{icon6}{icon7}",
-        "format-icons": [ 
+        "format-icons": [
             "▁", "▂", "▃", "▄",
             "<span color='#ffece6'>▅</span>", // orange
             "<span color='#ff9977'>▆</span>", //   |
@@ -136,9 +136,9 @@
     "clock": {
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
         // "on-click": "swaymsg exec gnome-calendar",
-        "format": "{:%a %d %b %g %H:%M}"
+        "format": "{:%a %d %b %H:%M}"
     },
-    
+
     "custom/weather": {
         "format": "{}",
         "tooltip": true,
@@ -151,8 +151,8 @@
         "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
         "format": "{ifname}",
         "format-wifi": "{icon} {essid}",
-        "format-ethernet": "{ifname} ",
-        "tooltip-format": "{bandwidthDownBytes} {bandwidthUpBytes} {signalStrength}%",
+        "format-ethernet": "{ifname}  ",
+        "tooltip-format": "Up: {bandwidthUpBytes}\nDown: {bandwidthDownBytes}\nStrength: {signalStrength}%",
         "format-disconnected": "󰀝 Disconnected",
         "on-click": "swaymsg exec -- alacritty -e nmtui"
     },

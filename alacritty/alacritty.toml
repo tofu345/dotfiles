@@ -3,11 +3,11 @@ background = "#000000"
 
 [font]
 normal = { family = "CaskaydiaMono Nerd Font Mono", style = "Regular" }
-size = 15.5
+size = 16.5
 
 [window]
 # decorations = "None"
-opacity = 0.95
+opacity = 0.9
 # blur = true
 
 [colors]
@@ -24,7 +24,9 @@ hide_when_typing = true
 bindings = [
     { key = "[", mods = "Alt", action = "ToggleViMode" },
     { key = "f", mode = "Vi|~Search", action = "InlineSearchForward" },
-    { key = "t", mode = "Vi|~Search", action = "InlineSearchBackward" },
+    { key = "t", mode = "Vi|~Search", action = "InlineSearchForwardShort" },
+    { key = "f", mode = "Vi|~Search", mods = "Shift", action = "InlineSearchBackward" },
+    { key = "t", mode = "Vi|~Search", mods = "Shift", action = "InlineSearchBackwardShort" },
     { key = "0", mods = "Shift", mode = "Vi|~Search", action = "First" },
     { key = "$", mode = "Vi|~Search", action = "Last" },
     { key = "b", mode = "Vi|~Search", action = "WordLeft" },
