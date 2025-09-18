@@ -1,42 +1,40 @@
 /* ==========================================================================
    Rofi color theme
 
-   Based on the Gruvbox color scheme for Vim by morhetz
+   Initially based on the Gruvbox color scheme for Vim by morhetz
    https://github.com/morhetz/gruvbox
    And bardisty <b@bah.im>
    https://github.com/bardisty/gruvbox-rofi
 
-   File: rosy-brown-gruvbox.rasi
-   Desc: Rosy Brown Gruvbox dark color theme for Rofi
+   File: rofi-theme.rasi
+   Desc: Theme for Rofi
    ========================================================================== */
 
 * {
     /* Theme settings */
-    highlight: bold italic;
+    highlight: bold;
     scrollbar: true;
 
-    // #543232
-
     /* Gruvbox dark colors */
-    gruvbox-dark-bg0-soft:     #282828;
-    gruvbox-dark-bg1:          #282828;
+    gruvbox-dark-bg0-soft:     #151616;
+    gruvbox-dark-bg1:          #151616;
 
-    gruvbox-dark-bg3:          #402626;
+    gruvbox-dark-bg3:          #96789f;
+    border:                    #96789f;
 
-    gruvbox-dark-fg0:          #fbf1c7;
-    gruvbox-dark-fg1:          #ebdbb2;
+    gruvbox-dark-fg0:          #000000;
+    gruvbox-dark-fg1:          #c5c8c6;
+
     gruvbox-dark-red-dark:     #cc241d;
     gruvbox-dark-red-light:    #fb4934;
     gruvbox-dark-yellow-dark:  #d79921;
     gruvbox-dark-yellow-light: #fabd2f;
 
-    gruvbox-dark-gray:         #402626;
-
     /* Theme colors */
     background:                  @gruvbox-dark-bg0-soft;
     background-color:            @background;
     foreground:                  @gruvbox-dark-fg1;
-    border-color:                @gruvbox-dark-gray;
+    border-color:                @border;
     separatorcolor:              @border-color;
     scrollbar-handle:            @border-color;
 
