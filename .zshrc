@@ -3,11 +3,9 @@ export ZSH="$HOME/.oh-my-zsh"
 
 unsetopt autocd
 setopt inc_append_history_time
+setopt dot_glob
+setopt extended_glob
 
 source $ZSH/oh-my-zsh.sh
-
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-eval "$(starship init zsh)"
-source <(fzf --zsh)
 
 source ~/.dotfiles/.zshprivate
