@@ -3,12 +3,12 @@ background = "#000000"
 
 [font]
 normal = { family = "CaskaydiaMono Nerd Font Mono", style = "Regular" }
-size = 10
+size = 16.9
 
 [window]
 # decorations = "None"
-opacity = 0.7
-# blur = true
+opacity = 0.95
+blur = false
 
 [colors]
 selection = { background = "#ffffff" }

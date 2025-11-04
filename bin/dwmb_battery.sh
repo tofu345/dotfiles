@@ -7,7 +7,7 @@ icons=("󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹")
 
 color=""
 if [[ $status != 'Discharging' ]]; then
-    color="#9ece6a"
+    color="#7aa2f7"
 elif [[ $status = 'Discharging' && $level -le 30 ]]; then
     color="#f7768e"
 fi
@@ -23,8 +23,6 @@ elif [[ $level -ge 50 ]]; then
     icon=4
 elif [[ $level -ge 25 ]]; then
     icon=2
-else
-    icon=0
 fi
 
 fg_color=""

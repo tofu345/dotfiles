@@ -6,9 +6,9 @@ if [ $# != 1 ]; then
 fi
 
 case "$1" in
-  "mute") wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle;;
-  "down") wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-;;
-  "up") wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ --limit 1.0;;
+  mute) wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle;;
+  down) wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-;;
+  up) wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ --limit 1.0;;
 esac
 
-pkill -RTMIN+1 dwmblocks # refresh dwmblocks volume
+pkill -RTMIN+1 dwmblocks # signal dwmblocks volume indicator

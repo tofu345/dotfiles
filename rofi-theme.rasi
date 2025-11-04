@@ -9,7 +9,7 @@
     background-color:       Black;
     border-color:           Black;
     text-color:             #a9b1d6;
-    font:                   "CaskaydiaMono Nerd Font 9";
+    font:                   "CaskaydiaMono Nerd Font, Bold 10";
 }
 
 window {

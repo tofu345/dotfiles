@@ -16,11 +16,11 @@ set $right l
 set $term alacritty
 set $menu "rofi -modi drun,run -show drun"
 
-font 'CaskaydiaMono Nerd Font' 9
+font 'CaskaydiaMono Nerd Font' 10
 titlebar_padding 5 3
 focus_follows_mouse no
 
-hide_edge_borders --i3 smart_no_gaps
+# hide_edge_borders --i3 smart_no_gaps
 workspace_layout tabbed
 
 gaps inner 0
@@ -87,8 +87,8 @@ input "type:touchpad" {
 }
 
 input "type:keyboard" {
-    xkb_layout "real-prog-dvorak,us"
-    xkb_variant ""
+    xkb_layout "us,us"
+    xkb_variant "real-prog-dvorak,"
     xkb_options "grp:alt_space_toggle,altwin:swap_lalt_lwin,ctrl:swap_ralt_rctl"
 }
 
@@ -184,6 +184,9 @@ bindsym $mod+o layout toggle split
 
 # Make the current focus fullscreen
 bindsym $mod+f fullscreen
+
+bindsym $mod+b bar mode invisible
+bindsym $mod+Shift+b bar mode dock
 
 # Toggle the current focus between tiling and floating mode
 # bindsym $mod+Shift+space floating toggle
