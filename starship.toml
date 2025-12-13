@@ -9,6 +9,9 @@ command_timeout = 1000
 success_symbol = '[>](gray)'
 error_symbol = '[>](red)'
 
+[battery]
+disabled = true
+
 [directory]
 style = '#f6c3d6'
 read_only = " 󰌾"
