@@ -1,0 +1,241 @@
+# i3 config file (v4)
+# https://i3wm.org/docs/userguide.html - complete reference
+
+# >-- Sets --<
+
+set $mod Mod4
+set $left h
+set $down j
+set $up k
+set $right l
+set $refresh_i3status killall -SIGUSR1 i3status
+
+font pango:monospace 9
+focus_follows_mouse no
+hide_edge_borders smart_no_gaps
+floating_modifier $mod
+tiling_drag modifier titlebar
+workspace_layout tabbed
+# floating_minimum_size 500 x 300
+
+# >-- Execs --<
+
+# Surely a better way
+exec_always setxkbmap -layout real-prog-dvorak -option "ctrl:ralt_rctrl,altwin:swap_lalt_lwin"
+
+# Night light
+exec gammastep -O 3000
+
+exec_always --no-startup-id nitrogen --restore
+
+# Load GTK Settings, dark style
+exec --no-startup-id /usr/libexec/gsd-xsettings
+exec --no-startup-id gsettings set org.gnome.desktop.interface color-scheme prefer-dark
+
+# don't turn off screen
+exec --no-startup-id xset s off s noblank -dpms
+
+# Picom
+# '--transparent-clipping' for https://github.com/yshui/picom/issues/265, breaks menu shadows or whatever though
+exec --no-startup-id picom -b --config /home/tofs/.dotfiles/i3/picom.conf
+
+# Start XDG autostart .desktop files using dex. See also
+# https://wiki.archlinux.org/index.php/XDG_Autostart
+exec --no-startup-id dex --autostart --environment i3
+
+# The combination of xss-lock, nm-applet and pactl is a popular choice, so
+# they are included here as an example. Modify as you see fit.
+
+# xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
+# screen before suspend. Use loginctl lock-session to lock your screen.
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock -f -c 1a1a1a -k --nofork
+
+# NetworkManager is the most popular way to manage wireless networks on Linux,
+# and nm-applet is a desktop environment-independent system tray GUI for it.
+exec --no-startup-id nm-applet
+
+# >-- Keybinds --<
+
+bindsym $mod+left focus left
+bindsym $mod+down focus down
+bindsym $mod+up focus up
+bindsym $mod+right focus right
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
+
+# bindsym $mod+Shift+s sticky toggle
+bindsym $mod+f fullscreen toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+bindsym $mod+Shift+space floating toggle
+
+# list open windows
+bindsym $mod+w exec --no-startup-id rofi -show window
+
+bindsym $mod+b bar mode dock
+bindsym $mod+Shift+b bar mode invisible
+bindsym $mod+u exec --no-startup-id $refresh_i3status
+
+# orientation
+bindsym $mod+o layout toggle split
+bindsym $mod+Ctrl+o layout stacked
+bindsym $mod+Shift+o layout tabbed
+
+# new window position
+bindsym $mod+Shift+s split v
+bindsym $mod+s split h
+
+# Marks
+bindsym $mod+m exec i3-input -F 'mark %s' -l 1 -P 'Mark: '
+bindsym $mod+g exec i3-input -F '[con_mark="%s"] focus' -l 1 -P 'Goto: '
+
+bindsym $mod+p focus parent
+bindsym $mod+Shift+p focus child
+
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+minus scratchpad show
+
+# Clipboard
+# bindsym $mod+v exec --no-startup-id CM_LAUNCHER=rofi ~/.local/bin/clipmenu
+bindsym $mod+Shift+v exec --no-startup-id ~/.local/bin/clipdel -d ".*"
+bindsym $mod+v exec vivaldi --password-store=gnome-libsecret
+
+# launcher
+bindsym $mod+d exec "rofi -modi drun,run -show drun"
+
+# File explorer
+bindsym $mod+e exec --no-startup-id nautilus
+
+bindsym $mod+t exec alacritty
+bindsym $mod+Shift+t exec gnome-terminal
+
+# kill focused window
+bindsym $mod+Shift+q kill
+
+# This unholy amalgamation of code is to make sure the volume does not go above 100%, should probably have been included in pactl but oh well
+bindsym XF86AudioRaiseVolume exec --no-startup-id [ $(pactl -- get-sink-volume "@DEFAULT_SINK@" | awk -F'/' '{print $2}' | sed 's/[^0-9]*//g') -lt 100 ] && pactl set-sink-volume @DEFAULT_SINK@ +5% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% && $refresh_i3status
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+
+# From: https://unix.stackexchange.com/a/346800
+# take a screenshot of a screen region and copy it to a clipboard
+bindsym --release Print exec "bash ~/.config/i3/scregcp.sh -s /home/tofs/Pictures/Screenshots/"
+# take a screenshot of a whole window and copy it to a clipboard
+# bindsym --release Shift+Print  exec "~/.config/i3/scregcp.sh /home/tofs/Pictures/Screenshots/"
+
+# Control Brightness; MUST DO: `usermod -aG video ${USER}` to use brightnessctl without sudo and logout (or reboot)
+bindcode 233 exec --no-startup-id brightnessctl set +10%
+# Make sure brightness is above the lowest, because u can set it to zero for some reason lol
+bindcode 232 exec --no-startup-id [ $(brightnessctl get) -gt 1920 ] && brightnessctl set 10%-
+
+# >-- Workspaces --<
+
+# Define names for default workspaces for which we configure key bindings later on.
+# We use variables to avoid repeating the names in multiple places.
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+# switch to workspace
+# keycodes for 1,2,...,0 on qwerty, dvorak
+bindcode $mod+10 workspace number $ws1
+bindcode $mod+11 workspace number $ws2
+bindcode $mod+12 workspace number $ws3
+bindcode $mod+13 workspace number $ws4
+bindcode $mod+14 workspace number $ws5
+bindcode $mod+15 workspace number $ws6
+bindcode $mod+16 workspace number $ws7
+bindcode $mod+17 workspace number $ws8
+bindcode $mod+18 workspace number $ws9
+bindcode $mod+19 workspace number $ws10
+
+bindcode $mod+Shift+10 move container to workspace number $ws1
+bindcode $mod+Shift+11 move container to workspace number $ws2
+bindcode $mod+Shift+12 move container to workspace number $ws3
+bindcode $mod+Shift+13 move container to workspace number $ws4
+bindcode $mod+Shift+14 move container to workspace number $ws5
+bindcode $mod+Shift+15 move container to workspace number $ws6
+bindcode $mod+Shift+16 move container to workspace number $ws7
+bindcode $mod+Shift+17 move container to workspace number $ws8
+bindcode $mod+Shift+18 move container to workspace number $ws9
+bindcode $mod+Shift+19 move container to workspace number $ws10
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+# exit i3 (logs you out of your X session)
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+
+# resize window (you can also use the mouse for that for floating windows)
+mode "resize" {
+        bindsym $left resize shrink width 10 px
+        bindsym $down resize grow height 10 px
+        bindsym $up resize shrink height 10 px
+        bindsym $right resize grow width 10 px
+
+        bindsym Ctrl+$left resize shrink width 100 px
+        bindsym Ctrl+$down resize shrink height 100 px
+        bindsym Ctrl+$up resize grow height 100 px
+        bindsym Ctrl+$right resize grow width 100 px
+
+        # back to normal: Enter or Escape or $mod+r
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+r mode "default"
+        bindsym $mod+bracketleft mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+# >-- Colors --<
+
+# dark grey - #36454F
+# lighter-dark grey - #29353d
+# green     - #206030
+# solarized grey  - #282828
+# solarized brown - #504945
+# rosy brown - #543232CC
+
+# set $accent #543232
+set $black  #000000
+set $white  #ffffff
+set $gray   #808080
+set $red    #900000
+
+# class                 border  backgr. text    indictr child_border
+client.focused          $black  $black  $white  $black  $black
+client.focused_inactive $black  $black  #bfbfbf $black  $black
+client.unfocused        $black  $black  $gray   $black  $black
+client.urgent           $red    $red    $white  $red    $red
+client.placeholder      $black  $black  $white  $black  $black
+
+bar {
+        status_command i3status --config ~/.config/i3/i3status.conf
+        colors {
+                background $black
+                statusline #ffffff
+                separator #404040
+
+                # class            border  backgr. text
+                focused_workspace  $black  $black  $white
+                active_workspace   $black  $black  #808080
+                inactive_workspace $black  $black  #888888
+                urgent_workspace   $black  $black  $white
+        }
+}

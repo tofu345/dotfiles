@@ -1,0 +1,34 @@
+[colors.primary]
+background = "#000000"
+
+[font]
+normal = { family = "CaskaydiaMono Nerd Font Mono", style = "Regular" }
+size = 9.5
+
+[window]
+opacity = 0.95
+blur = false
+
+[colors]
+selection = { background = "#aaacab" }
+
+[cursor]
+style = { blinking = "Off" }
+vi_mode_style = { shape = "Block", blinking = "Off" }
+
+[mouse]
+hide_when_typing = true
+
+[keyboard]
+bindings = [
+    { mods = "Alt", key = "[", action = "ToggleViMode" },
+    { key = "f", mode = "Vi|~Search", action = "InlineSearchForward" },
+    { key = "t", mode = "Vi|~Search", action = "InlineSearchForwardShort" },
+    { key = "f", mode = "Vi|~Search", mods = "Shift", action = "InlineSearchBackward" },
+    { key = "t", mode = "Vi|~Search", mods = "Shift", action = "InlineSearchBackwardShort" },
+    { key = "0", mods = "Shift", mode = "Vi|~Search", action = "First" },
+    { key = "$", mode = "Vi|~Search", action = "Last" },
+    { key = "b", mode = "Vi|~Search", action = "WordLeft" },
+    { key = "w", mode = "Vi|~Search", action = "WordRight" },
+    { key = "e", mode = "Vi|~Search", action = "WordRightEnd" },
+]

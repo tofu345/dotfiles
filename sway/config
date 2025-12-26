@@ -1,0 +1,265 @@
+# Config for sway
+#
+# Read `man 5 sway` for a complete reference.
+
+include /etc/sway/config-vars.d/*
+include ~/.dotfiles/sway/config.private
+
+# Logo (Super) key. Use Mod1 for Alt.
+set $mod Mod4
+
+set $left h
+set $down j
+set $up k
+set $right l
+
+set $term alacritty
+set $menu "rofi -modi drun,run -show drun"
+
+font 'CaskaydiaMono Nerd Font' 10
+titlebar_padding 5 3
+focus_follows_mouse no
+
+# hide_edge_borders --i3 smart_no_gaps
+workspace_layout tabbed
+
+gaps inner 0
+smart_gaps on
+smart_borders on
+default_border pixel 3
+
+xwayland enable
+floating_modifier $mod normal
+
+# Load GTK Settings
+exec --no-startup-id /usr/libexec/gsd-xsettings
+exec --no-startup-id gsettings set org.gnome.desktop.interface color-scheme prefer-dark
+# Fixed slow GTK app startup, e.g Firefox https://github.com/swaywm/sway/issues/5732#issuecomment-731466006
+exec_always "systemctl --user import-environment"
+
+exec --no-startup-id /usr/bin/lxpolkit
+
+# * Output configuration
+#
+# Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
+output * bg ~/Pictures/Wallpapers/1341864.png fill
+# output * bg ~/Pictures/Wallpapers/1337222.jpeg fill
+# output * bg #000000 solid_color
+#
+# Example configuration:
+#
+#   output HDMI-A-1 resolution 1920x1080 position 1920,0
+#
+# You can get the names of your outputs by running: swaymsg -t get_outputs
+
+# * Sway NC
+#
+# Notification Daemon
+exec swaync
+
+# * Idle configuration
+#
+# This will lock your screen after 300 seconds of inactivity, then turn off
+# your displays after another 300 seconds, and turn your screens back on when
+# resumed. It will also lock your screen before your computer goes to sleep.
+#
+# exec swayidle -w \
+#          timeout 300 'swaylock -f -c 000000' \
+#          timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+#          before-sleep 'swaylock -f -c 000000'
+#
+exec swayidle -w before-sleep 'swaylock -f -c 000000 --indicator-idle-visible'
+
+# Night light
+exec gammastep -O 4000
+
+# * Input configuration
+# You can get the names of your inputs by running: swaymsg -t get_inputs
+# Read `man 5 sway-input` for more information about this section.
+#
+# also edited /usr/share/X11/xorg.conf.d/40-libinput.conf
+#
+input "type:touchpad" {
+    dwt enabled
+    tap enabled
+    natural_scroll enabled
+    middle_emulation disabled
+}
+
+input "type:keyboard" {
+    xkb_layout "us,us"
+    xkb_variant "real-prog-dvorak,"
+    xkb_options "grp:alt_space_toggle,altwin:swap_lalt_lwin,ctrl:swap_ralt_rctl"
+}
+
+bindsym $mod+t exec $term
+bindsym $mod+Shift+t exec gnome-terminal
+bindsym $mod+d exec $menu
+bindsym $mod+e exec nemo
+bindsym $mod+z exec flatpak run app.zen_browser.zen
+bindsym $mod+n exec swaync-client -t -sw
+
+bindsym XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ --limit 1.0
+bindsym XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+bindsym XF86AudioMute exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+
+# take a screenshot of a screen region, copy it to a clipboard
+bindsym --release Print exec grim -g "$(slurp)" - | wl-copy -t image/png
+# && wl-paste --no-newline --type image/png > "/home/tofs/Pictures/Screenshots/$(date +'%s_screenshot.png')"
+bindsym --release Shift+Print exec grim - | wl-copy -t image/png
+
+# Control Brightness; MUST DO: `usermod -aG video ${USER}` to use brightnessctl without sudo and logout (or reboot)
+bindcode 233 exec --no-startup-id brightnessctl set +10%
+bindcode 232 exec --no-startup-id [ $(brightnessctl get) -gt 1920 ] && brightnessctl set 10%-
+
+# Kill focused window
+bindsym $mod+Shift+q kill
+
+# Clear clipboards
+bindsym $mod+Shift+v exec wl-copy --clear
+
+# Reload the configuration file
+bindsym $mod+Shift+c reload
+# Exit sway (logs you out of your Wayland session)
+bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+
+# Moving around:
+#
+# Move your focus around
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
+# Or use $mod+[up|down|left|right]
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# Move the focused window with the same, but add Shift
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
+# Ditto, with arrow keys
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# Workspaces:
+#
+# Switch to workspace
+bindcode $mod+10 workspace number 1
+bindcode $mod+11 workspace number 2
+bindcode $mod+12 workspace number 3
+bindcode $mod+13 workspace number 4
+bindcode $mod+14 workspace number 5
+bindcode $mod+15 workspace number 6
+bindcode $mod+16 workspace number 7
+bindcode $mod+17 workspace number 8
+bindcode $mod+18 workspace number 9
+bindcode $mod+19 workspace number 10
+# Move focused container to workspace
+bindcode $mod+Shift+10 move container to workspace number 1
+bindcode $mod+Shift+11 move container to workspace number 2
+bindcode $mod+Shift+12 move container to workspace number 3
+bindcode $mod+Shift+13 move container to workspace number 4
+bindcode $mod+Shift+14 move container to workspace number 5
+bindcode $mod+Shift+15 move container to workspace number 6
+bindcode $mod+Shift+16 move container to workspace number 7
+bindcode $mod+Shift+17 move container to workspace number 8
+bindcode $mod+Shift+18 move container to workspace number 9
+bindcode $mod+Shift+19 move container to workspace number 10
+
+# Layout
+#
+bindsym $mod+s splith
+bindsym $mod+Shift+s splitv
+
+# Switch the current container between different layout styles (orientation)
+bindsym $mod+Ctrl+o layout stacking
+bindsym $mod+Shift+o layout tabbed
+bindsym $mod+o layout toggle split
+
+# Make the current focus fullscreen
+bindsym $mod+f fullscreen
+
+bindsym $mod+b bar mode invisible
+bindsym $mod+Shift+b bar mode dock
+
+# Toggle the current focus between tiling and floating mode
+# bindsym $mod+Shift+space floating toggle
+#
+# Swap focus between the tiling area and the floating area
+# bindsym $mod+space focus mode_toggle
+
+# TODO: Need better keybinds for this
+# bindsym $mod+p focus parent
+# bindsym $mod+Shift+p focus child
+
+# Marks
+bindsym --to-code $mod+m exec ~/.local/bin/sway-marker mark
+bindsym --to-code $mod+g exec ~/.local/bin/sway-marker goto
+
+# Scratchpad:
+#
+# Sway has a "scratchpad", which is a bag of holding for windows.
+# You can send windows there and get them back later.
+
+# Move the currently focused window to the scratchpad
+bindsym $mod+Shift+minus move scratchpad
+
+# Show the next scratchpad window or hide the focused scratchpad window.
+# If there are multiple scratchpad windows, this command cycles through them.
+bindsym $mod+minus scratchpad show
+
+mode "resize" {
+    # (h) left will shrink the containers width
+    # (l) right will grow the containers width
+    # (k) up will shrink the containers height
+    # (j) down will grow the containers height
+
+    bindsym $left resize shrink width 10px
+    bindsym $down resize grow height 10px
+    bindsym $up resize shrink height 10px
+    bindsym $right resize grow width 10px
+
+    bindsym Ctrl+$left resize shrink width 100px
+    bindsym Ctrl+$down resize shrink height 100px
+    bindsym Ctrl+$up resize grow height 100px
+    bindsym Ctrl+$right resize grow width 100px
+
+    # Ditto, with arrow keys
+    bindsym Left resize shrink width 10px
+    bindsym Down resize grow height 10px
+    bindsym Up resize shrink height 10px
+    bindsym Right resize grow width 10px
+
+    # Return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym $mod+r mode "default"
+}
+bindsym $mod+r mode "resize"
+
+set $black      #000000EE
+set $white      #ffffff
+set $red        #802000
+
+client.background #000000
+
+# class                 border    backgr.   text      indictr   child_brdr
+client.focused          $black    $black    $white    $black    #444444
+client.focused_inactive $black    $black    $white    $black    $black
+client.unfocused        $black    $black    #737373   $black    $black
+client.urgent           $black    $black    #ff0000   $black    $red
+
+# Status Bar:
+#
+# Read `man 5 sway-bar` for more information about this section.
+bar {
+    font pango:monospace 9
+    position top
+    swaybar_command waybar
+}

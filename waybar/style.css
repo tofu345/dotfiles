@@ -1,0 +1,136 @@
+/* Refresh waybar css: killall -SIGUSR2 waybar */
+
+@define-color bg rgba(0, 0, 0, 0.7);
+@define-color border transparent;
+@define-color color  white;
+
+/* @define-color err    #802000;
+@define-color warn   #785e3a; */
+
+window#waybar {
+    background-color: transparent;
+    color: white;
+}
+
+* {
+    transition: none;
+    border: none;
+    border-radius: 5px;
+    font-family: "CaskaydiaMono Nerd Font";
+    font-size: 12px;
+    min-height: 0;
+}
+
+tooltip {
+    background-color: rgba(0, 0, 0, 0.9);
+    border-radius: 5px;
+    border: 0.2px solid gray;
+    padding: 0;
+}
+
+tooltip label {
+    padding: 0;
+    color: white;
+    text-shadow: none;
+}
+
+#workspaces {
+    padding: 0 3px;
+    background-color: @bg;
+    border: none;
+}
+
+#workspaces button {
+    color: #a6a6a6;
+    border-radius: 0;
+    padding: 0px 2px;
+    font-weight: 300;
+    /* transition: font-weight 0.05s ease-in; */
+    /* transition-delay: 50ms; */
+}
+
+#workspaces button.focused {
+    color: white;
+    font-weight: 900;
+}
+
+#workspaces button.urgent {
+    color: red;
+    font-weight: 900;
+}
+
+/* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
+#workspaces button:hover {
+    transition: none;
+    box-shadow: inherit;
+    text-shadow: inherit;
+    border-radius: inherit;
+    color: inherit;
+    background: transparent;
+    background-color: transparent;
+}
+
+#battery,
+#clock,
+#cpu,
+#custom-notification,
+#custom-powermode,
+#custom-weather,
+#load,
+#memory,
+#mode,
+#mpris,
+#network,
+#scratchpad,
+#temperature,
+#tray,
+#wireplumber {
+    padding: 0px 7px 0px 7px;
+    background-color: @bg;
+}
+
+#custom-notification {
+    padding-right: 11px;
+}
+
+#custom-notification.dnd-none {
+    padding-right: 14px;
+}
+
+#custom-powermode {
+    padding-right: 10px;
+    font-size: 11px;
+}
+
+#network {
+    color: #33cc33;
+}
+
+#mpris {
+    background-color: rgba(128, 74, 0, 0.6);
+}
+
+#battery {
+    padding: 0px 13px 0px 5px;
+}
+
+#mode {
+    color: #e63900;
+    font-weight: 900;
+}
+
+#wireplumber.muted {
+}
+
+#load.warning,
+#memory.warning,
+#network.disconnected {
+    color: #ffa500;
+}
+
+#battery.critical:not(.charging),
+#temperature.critical,
+#load.critical,
+#memory.critical {
+    color: #ff4000;
+}

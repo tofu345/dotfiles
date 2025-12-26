@@ -1,0 +1,189 @@
+/* From: https://github.com/iyiolacak/-iyiolacak-s-swaync-config */
+
+@define-color bg rgba(0, 0, 0, 0.83);
+@define-color border rgba(255, 255, 255, 0.3);
+@define-color fg white;
+@define-color fg_secondary rgba(215, 220, 225, 0.78);
+@define-color red rgba(128, 32, 0, 0.8);
+@define-color red2 rgb(128, 32, 0);
+
+* {
+    /* font-family: "Inter", "SF Pro Text", sans-serif; */
+    font-family: "CaskaydiaMono Nerd Font";
+    font-size: 13px;
+    color: @theme_fg;
+
+    border: none;
+    border-radius: 0;
+    background: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+    text-shadow: none;
+    outline: none;
+}
+
+/* Notification Center */
+
+.control-center {
+    background-color: transparent;
+    border-top: 0.1px solid @border;
+    border-left: 0.1px solid @border;
+    border-right: 0.1px solid @border;
+    border-radius: 5px;
+}
+
+.control-center > scrolledwindow > viewport,
+.control-center > box {
+    background-color: @bg;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.control-center .widget-title {
+    background: @bg;
+    padding: 5px 10px;
+    border-radius: 0;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.control-center .widget-title > label {
+    font-size: 12px;
+    font-weight: 100;
+}
+
+button.control-center-clear-all {
+    background-color: transparent;
+}
+
+button.control-center-clear-all > label {
+    color: gray;
+    font-size: 12px;
+    background-color: transparent;
+    transition: color 0.15s ease;
+}
+
+button.control-center-clear-all:hover > label,
+button.control-center-clear-all:active > label {
+    color: white;
+}
+
+/* Notification Row */
+
+.control-center-list {
+    background-color: @bg;
+}
+
+.control-center-list-placeholder > label {
+    font-size: 12px;
+}
+
+.control-center-list-placeholder > image {
+}
+
+.control-center .notification-row {
+}
+
+.control-center .notification-background,
+.floating-notifications .notification-background {
+    padding: 10px;
+    border: 0.1px solid @border;
+    border-radius: 5px;
+    background-color: transparent;
+    transition:
+        background-color 0.15s ease,
+        border-color 0.15s ease;
+}
+
+.control-center .notification-background {
+    border-color: transparent;
+}
+
+.control-center .notification-row:hover .time {
+    opacity: 0;
+}
+
+.control-center .notification-row:hover .notification-background {
+}
+
+.control-center .notification .summary,
+.floating-notifications .notification .summary {
+    font-size: 13px;
+    font-weight: 600;
+    color: @fg;
+}
+
+.control-center .notification.critical .summary,
+.floating-notifications .notification.critical .summary {
+    color: #ff6666;
+}
+
+.control-center .notification .body,
+.floating-notifications .notification .body,
+.control-center .notification .time {
+    font-size: 13px;
+    color: @fg_secondary;
+}
+
+.control-center .close-button,
+.floating-notifications .close-button {
+    color: black;
+    border-radius: 5px;
+    padding: 1px;
+    background-color: @red;
+}
+
+.control-center .close-button:hover,
+.floating-notifications .close-button:hover {
+    background-color: @red2;
+}
+
+.control-center .close-button image,
+.floating-notifications .close-button image {
+    margin-left: 0.5px; /* Image spacing */
+    color: black;
+}
+
+.control-center .notification image,
+.floating-notifications .notification image {
+    margin-right: 5px;
+    min-width: 36px;
+    min-height: 36px;
+    border-radius: 8px;
+}
+
+.floating-notifications {
+}
+
+.floating-notifications .notification-row {
+    padding: 3px;
+    padding-top: 2px;
+}
+
+.floating-notifications .notification-background {
+    background-color: @bg;
+}
+
+.notification-action,
+.notification-alt-actions button {
+    border-radius: 5px;
+    padding: 3px;
+    font-size: 12px;
+    color: @fg;
+    background-color: transparent;
+    transition: background-color 0.15s ease;
+}
+
+.notification-alt-actions label,
+.notification-action label {
+    font-size: 12px;
+    margin-top: 5px;
+    background-color: transparent;
+}
+
+.notification-action.text-button label {
+}
+
+.notification-action.text-button:hover label {
+}
