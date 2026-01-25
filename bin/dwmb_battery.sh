@@ -8,7 +8,7 @@ icons=("󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹")
 color=""
 if [[ $status != 'Discharging' ]]; then
     color="#7aa2f7"
-elif [[ $status = 'Discharging' && $level -le 30 ]]; then
+elif [[ $status = 'Discharging' && $level -le 35 ]]; then
     color="#f7768e"
 fi
 

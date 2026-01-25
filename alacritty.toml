@@ -3,11 +3,12 @@ background = "#000000"
 
 [font]
 normal = { family = "CaskaydiaMono Nerd Font Mono", style = "Regular" }
-size = 9.5
+size = 7.5
 
 [window]
-opacity = 0.95
+opacity = 1
 blur = false
+dynamic_padding = true
 
 [colors]
 selection = { background = "#aaacab" }
