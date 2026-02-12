@@ -6,8 +6,8 @@ normal = { family = "CaskaydiaMono Nerd Font Mono", style = "Regular" }
 size = 7.5
 
 [window]
-opacity = 1
-blur = false
+opacity = 0.925
+# padding = { x = 3, y = 2 }
 dynamic_padding = true
 
 [colors]
@@ -32,4 +32,6 @@ bindings = [
     { key = "b", mode = "Vi|~Search", action = "WordLeft" },
     { key = "w", mode = "Vi|~Search", action = "WordRight" },
     { key = "e", mode = "Vi|~Search", action = "WordRightEnd" },
+
+	{ key = "Space", mods = "Control|Shift", action = "None" },
 ]
