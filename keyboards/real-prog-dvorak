@@ -1,6 +1,7 @@
 // based on Michael Paulson's poor ideas: https://github.com/ThePrimeagen/keyboards
 partial alphanumeric_keys
-xkb_symbols "real-prog-dvorak" {
+xkb_symbols "basic" {
+    include "us(basic)"
 
     name[Group1]= "English (Real Programmers Dvorak)";
 

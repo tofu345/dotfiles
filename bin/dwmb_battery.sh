@@ -6,9 +6,11 @@ level="$(cat /sys/class/power_supply/BAT0/capacity)"
 icons=("󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹")
 
 color=""
-if [[ $status != 'Discharging' ]]; then
+if [[ $status = "Not charging" ]]; then
+	color="#9ece6a"
+elif [[ $status = "Charging" ]]; then
     color="#7aa2f7"
-elif [[ $status = 'Discharging' && $level -le 35 ]]; then
+elif [[ $status = "Discharging" && $level -le 35 ]]; then
     color="#f7768e"
 fi
 

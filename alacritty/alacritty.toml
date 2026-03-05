@@ -6,7 +6,7 @@ normal = { family = "CaskaydiaMono Nerd Font Mono", style = "Regular" }
 size = 7.5
 
 [window]
-opacity = 0.925
+opacity = 0.95
 dynamic_padding = true
 
 [colors]

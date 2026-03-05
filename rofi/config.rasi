@@ -1,0 +1,4 @@
+configuration {
+	disable-history: true;
+}
+@theme "dmenu-theme.rasi"
