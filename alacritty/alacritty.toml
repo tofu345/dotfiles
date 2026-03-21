@@ -4,13 +4,16 @@ background = "#000000"
 [font]
 normal = { family = "CaskaydiaMono Nerd Font Mono", style = "Regular" }
 size = 7.5
+# size = 11.5
 
 [window]
-opacity = 0.875
+# opacity = 0.75
+opacity = 0.9
 dynamic_padding = true
+blur = true
 
 [colors]
-selection = { background = "#aaacab" }
+selection = { background = "#464b50" }
 
 [cursor]
 style = { blinking = "Off" }
