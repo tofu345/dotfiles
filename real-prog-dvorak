@@ -1,7 +1,9 @@
 // based on Michael Paulson's poor ideas: https://github.com/ThePrimeagen/keyboards
+//
+// setup:
+//      sudo ln -s ~/dotfiles/real-prog-dvorak /usr/share/X11/xkb/symbols/
 partial alphanumeric_keys
-xkb_symbols "basic" {
-    include "us(basic)"
+xkb_symbols "real-prog-dvorak" {
 
     name[Group1]= "English (Real Programmers Dvorak)";
 

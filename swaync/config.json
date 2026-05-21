@@ -7,7 +7,7 @@
     "cssPriority": "application",
 
     "control-center-layer": "top",
-    "control-center-width": 400,
+    "control-center-width": 200,
     "control-center-margin-top": 0,
     "control-center-margin-bottom": 3,
     "control-center-margin-right": 2,

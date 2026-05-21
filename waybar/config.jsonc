@@ -9,69 +9,39 @@
     "layer": "top",
     "position": "top",
     "spacing": 4,
-    "margin": "3 3 3 3",
-    "height": 23,
-    "ipc": true,
-    "exclusive": false,
-    "fixed-center": false,
+    "margin": "5 5 0 5",
+    "height": 25,
+    // "ipc": true,
+    "exclusive": true,
+    // "fixed-center": false,
 
     // * Modules
 
     "modules-left": [
-        "sway/workspaces",
-        // "sway/window", /* window#waybar.stacked, tabbed and tiled css classes don't work https://github.com/Alexays/Waybar/issues/1399 */
-        "sway/scratchpad",
-        "sway/mode"
+        "niri/workspaces"
     ],
-    "modules-center": [
-    ],
+    "modules-center": [],
     "modules-right": [
-        // "mpris",
-        "tray",
+        "mpris",
         "wireplumber",
+        "network",
         "cpu",
-        // "temperature",
         "load",
         "memory",
-        "network",
         "battery",
-        // "custom/powermode"
         "clock",
-        "custom/notification"
+        "tray"
+        // "custom/notification"
     ],
 
     // * Configuration
 
-    "sway/workspaces": {
-        "all-outputs": false,
-        "enable-bar-scroll": false,
-        "disable-scroll": true,
-        "disable-scroll-wraparound": true,
-        "format": "{name}",
-    },
-
-    "sway/scratchpad": {
-        "format": "{icon}",
-        "show-empty": false,
-        "format-icons": ["🗕"],
-        "tooltip": true,
-        "tooltip-format": "{app}: {title}"
-    },
-
-    "wireplumber": {
-        "scroll-step": 5, // %, can be a float
-        "format": "󰎇 {volume}%",
-        "format-muted": "<span color='gray'>󰎇 {volume}%</span>",
-        // "format-muted": "󰝟 {volume}%",
-        // "format-icons": ["", "", ""],
-        "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
-        "on-click-right": "swaymsg exec -- alacritty -e alsamixer"
-    },
+    "niri/workspaces": { "format": "{icon}" },
 
     "mpris": {
         "max-length": 70,
         "format-playing": "󰝚 {dynamic}",
-        "format-paused": " {dynamic}",
+        "format-paused": " {dynamic}",
         "format": "{dynamic}",
         "interval": 1,
         // "dynamic-len": 60,
@@ -79,26 +49,23 @@
         // "ignored-players": ["firefox"]
     },
 
-    "battery": {
-        "bat": "BAT0",
-        // "design-capacity": true,
-        "interval": 5,
-        "states": {
-            "critical": 20
-        },
-        "format": "{capacity}% {icon}",
-        // "format-full": "{icon} {capacity}%",
-        "format-charging": "{capacity}% <span color='#33cc33'>{icon}</span>",
-        "format-plugged": "{capacity}% <span color='#0099ff'>{icon}</span>",
-        "format-not-charging": "{capacity}% <span color='#0099ff'>{icon}</span>",
-        "format-icons": ["", "", "", "", ""], // 
-        "max-length": 25
-    },
-
     "tray": {
         "icon-size": 13,
         "spacing": 10,
         "show-passive-items": true
+    },
+
+    "wireplumber": {
+        "scroll-step": 5, // %, can be a float
+        "format": "󰓃 {volume}%",
+        "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+        "on-click-right": "niri msg action spawn -- alacritty -e wiremix"
+    },
+
+    "cpu": {
+        "interval": 1,
+        "format": "{icon0}{icon1}{icon2}{icon3}{icon4}{icon5}{icon6}{icon7}",
+        "format-icons": [ "▁", "▂", "▃", "▄", "▅", "▆", "▇", "█" ]
     },
 
     "load": {
@@ -115,21 +82,38 @@
             "warning": 75,
             "critical": 90
         },
-        "format": " {percentage}%",
+        "format": " {percentage}%",
         "tooltip-format": "{used:0.1f}G / {total:0.1f}G",
         "max-length": 100
     },
 
-    "cpu": {
-        "interval": 1,
-        "format": "{icon0}{icon1}{icon2}{icon3}{icon4}{icon5}{icon6}{icon7}",
-        "format-icons": [
-            "▁", "▂", "▃", "▄",
-            "<span color='#ffece6'>▅</span>", // orange
-            "<span color='#ff9977'>▆</span>", //   |
-            "<span color='#e68165'>▇</span>", //   V
-            "<span color='#dd532e'>█</span>"  //  red
-        ]
+    "network": {
+        "format": "{ifname}",
+        // "format-wifi": "{icon} {essid}",
+        // "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
+        // "format-wifi": "{icon} ",
+        "format-wifi": " ",
+        "format-ethernet": "{ifname}  ",
+        "tooltip-format": "Up: {bandwidthUpBytes}\nDown: {bandwidthDownBytes}\nStrength: {signalStrength}%",
+        "format-disconnected": "󰀝 Disconnected",
+        "on-click": "niri msg action spawn -- alacritty -e impala"
+    },
+
+    "battery": {
+        "bat": "BAT0",
+        // "design-capacity": true,
+        "interval": 120,
+        "states": {
+            "warning": 35,
+            "critical": 30
+        },
+        "format": "{capacity}% {icon}",
+        // "format-full": "{icon} {capacity}%",
+        // "format-charging": "{capacity}% {icon}",
+        // "format-plugged": "{capacity}% {icon}",
+        // "format-not-charging": "{capacity}% {icon}",
+        "on-click": "killall -SIGUSR2 waybar",
+        "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"] // 
     },
 
     "clock": {
@@ -138,50 +122,24 @@
         "format": "{:%a %d %b %H:%M}"
     },
 
-    "network": {
-        "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
-        "format": "{ifname}",
-        "format-wifi": "{icon} {essid}",
-        "format-ethernet": "{ifname}  ",
-        "tooltip-format": "Up: {bandwidthUpBytes}\nDown: {bandwidthDownBytes}\nStrength: {signalStrength}%",
-        "format-disconnected": "󰀝 Disconnected",
-        "on-click": "swaymsg exec -- alacritty -e nmtui"
-    },
-
-    // "custom/powermode": {
-    //     "format": "{}",
-    //     "exec": "$HOME/.dotfiles/waybar/scripts/powermode_indicator.sh",
-    //     "exec-on-event": true,
-    //     "on-click": "$HOME/.dotfiles/bin/powermode next",
-    //     "interval": "once",
-    //     "tooltip": false
+    // "custom/notification": {
+    //     "tooltip": false,
+    //     "format": "{icon}",
+    //     "format-icons": {
+    //         "notification": "<span foreground='red'><sup></sup></span>",
+    //         "none": "",
+    //         "dnd-notification": "<span foreground='red'><sup></sup></span>",
+    //         "dnd-none": "",
+    //         "inhibited-notification": "<span foreground='red'><sup></sup></span>",
+    //         "inhibited-none": "",
+    //         "dnd-inhibited-notification": "<span foreground='red'><sup></sup></span>",
+    //         "dnd-inhibited-none": ""
+    //     },
+    //     "return-type": "json",
+    //     "exec-if": "which swaync-client",
+    //     "exec": "swaync-client -swb",
+    //     "on-click": "swaync-client -t -sw",
+    //     "on-click-right": "swaync-client -d -sw",
+    //     "escape": true
     // }
-
-    "custom/notification": {
-        "tooltip": false,
-        "format": "{icon}",
-        "format-icons": {
-            "notification": "<span foreground='red'><sup></sup></span>",
-            "none": "",
-            "dnd-notification": "<span foreground='red'><sup></sup></span>",
-            "dnd-none": "",
-            "inhibited-notification": "<span foreground='red'><sup></sup></span>",
-            "inhibited-none": "",
-            "dnd-inhibited-notification": "<span foreground='red'><sup></sup></span>",
-            "dnd-inhibited-none": ""
-        },
-        "return-type": "json",
-        "exec-if": "which swaync-client",
-        "exec": "swaync-client -swb",
-        "on-click": "swaync-client -t -sw",
-        "on-click-right": "swaync-client -d -sw",
-        "escape": true
-    },
-
-    "temperature": {
-        "interval": 5,
-        "critical-threshold": 80,
-        "format": "{temperatureC}°C",
-        "tooltip": false
-    }
 }
