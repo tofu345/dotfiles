@@ -1,0 +1,4 @@
+set previewer 'pistol'
+set hidden
+set relativenumber
+set icons

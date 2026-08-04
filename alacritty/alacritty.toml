@@ -3,14 +3,12 @@ background = "#000000"
 
 [font]
 normal = { family = "CaskaydiaMono Nerd Font Mono", style = "Regular" }
-# size = 7
-size = 8.5
+size = 7
 
 [window]
 dynamic_padding = true
-decorations = "None"
-opacity = 0.925
-padding = { x = 2, y = 2 }
+opacity = 0.975
+padding = { x = 1, y = 1 }
 
 [colors]
 selection = { background = "#c5c8c6" }
@@ -24,7 +22,7 @@ hide_when_typing = true
 
 [keyboard]
 bindings = [
-    { mods = "Alt", key = "[", action = "ToggleViMode" },
+    { mods = "Alt", key = "v", action = "ToggleViMode" },
     { key = "f", mode = "Vi|~Search", action = "InlineSearchForward" },
     { key = "t", mode = "Vi|~Search", action = "InlineSearchForwardShort" },
     { key = "f", mode = "Vi|~Search", mods = "Shift", action = "InlineSearchBackward" },
@@ -35,5 +33,5 @@ bindings = [
     { key = "w", mode = "Vi|~Search", action = "WordRight" },
     { key = "e", mode = "Vi|~Search", action = "WordRightEnd" },
 
-	{ key = "Space", mods = "Control|Shift", action = "None" },
+    { key = "Space", mods = "Control|Shift", action = "None" },
 ]

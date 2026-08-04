@@ -1,7 +1,7 @@
 /**
  * ROFI dmenu color theme
- *
- * Based on dmenu by Qball
+ * 
+ * Based on dmenu by Qball https://github.com/davatorium/rofi/blob/next/themes/dmenu.rasi
  * Copyright: Dave Davenport
  */
 
@@ -9,7 +9,7 @@
     background-color:       Black;
     border-color:           Black;
     text-color:             #a9b1d6;
-    font:                   "CaskaydiaMono Nerd Font, Bold 10";
+    font:                   "CaskaydiaMono Nerd Font, Bold 9";
 }
 
 window {
