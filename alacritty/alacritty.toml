@@ -23,6 +23,7 @@ hide_when_typing = true
 [keyboard]
 bindings = [
     { mods = "Alt", key = "v", action = "ToggleViMode" },
+
     { key = "f", mode = "Vi|~Search", action = "InlineSearchForward" },
     { key = "t", mode = "Vi|~Search", action = "InlineSearchForwardShort" },
     { key = "f", mode = "Vi|~Search", mods = "Shift", action = "InlineSearchBackward" },
