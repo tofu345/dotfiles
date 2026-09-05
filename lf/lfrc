@@ -2,3 +2,7 @@ set previewer 'pistol'
 set hidden
 set relativenumber
 set icons
+# set info size
+
+cmap <c-m> cmd-enter
+cmap <c-h> cmd-delete-back

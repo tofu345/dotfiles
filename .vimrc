@@ -13,11 +13,14 @@ set shiftwidth=4
 set softtabstop=4
 set expandtab
 
+set nohlsearch
 set number
 set rnu
 set signcolumn=yes
 set showcmd
 set showmode
+
+set tw=79
 
 nnoremap <C-p> <Cmd>GFiles<CR>
 nnoremap <Space>l <Cmd>Buffers<CR>
