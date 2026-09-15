@@ -1,8 +1,13 @@
-set previewer 'pistol'
 set hidden
-set relativenumber
 set icons
-# set info size
+set incfilter
+set incsearch
+set previewer 'pistol'
+set relativenumber
+set scrolloff 4
+set truncatechar '…'
+
+cmd mkdir %mkdir -p "$@"
 
 cmap <c-m> cmd-enter
 cmap <c-h> cmd-delete-back

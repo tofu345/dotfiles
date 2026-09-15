@@ -1,10 +1,10 @@
-[font]
-normal = { family = "CaskaydiaMono Nerd Font Mono", style = "Regular" }
-size = 7
-
 [colors]
 primary = { background = "#000000" }
 selection = { background = "#c5c8c6" }
+
+[font]
+normal = { family = "CaskaydiaMono Nerd Font Mono", style = "Regular" }
+size = 7
 
 [window]
 dynamic_padding = true
@@ -36,6 +36,5 @@ bindings = [
     { key = "w", mode = "Vi|~Search", action = "WordRight" },
     { key = "e", mode = "Vi|~Search", action = "WordRightEnd" },
 
-    { key = "-", mods = "Control", action = "None" },
     { key = "Space", mods = "Control|Shift", action = "None" },
 ]

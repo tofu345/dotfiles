@@ -5,29 +5,52 @@
 bindkey -e
 bindkey \^U backward-kill-line
 bindkey '^[[Z' reverse-menu-complete
-bindkey '\e[3~' delete-char # 'delete' key
+bindkey '\e[3~' delete-char # 'Delete' key
 bindkey '^\' redo # ^/ is undo
 bindkey '^[^x' execute-named-cmd
 
 # https://unix.stackexchange.com/a/250700
-function actually-backward-delete-word {
-    local WORDCHARS=${WORDCHARS/\//}
-    zle backward-delete-word
+function my-backward-kill-word {
+    WORDCHARS="" zle backward-kill-word
 }
-zle -N actually-backward-delete-word
-bindkey '^W' actually-backward-delete-word
+zle -N my-backward-kill-word
+bindkey '^W' my-backward-kill-word
 
 #------------#
 # completion #
 #------------#
 
+# made easy by this guy
+# https://thevaluable.dev/zsh-completion-guide-examples/
+
+zmodload zsh/complist
+
+# move around completion menu with ^h, ^j, ^k, ^l
+# hjkl does not work with 'history-incremental-search-forward'
+bindkey -M menuselect '^h' vi-backward-char
+bindkey -M menuselect '^k' vi-up-line-or-history
+bindkey -M menuselect '^j' vi-down-line-or-history
+bindkey -M menuselect '^l' vi-forward-char
+# search completions
+bindkey -M menuselect '/' history-incremental-search-forward
+
 autoload -U compinit; compinit
-zstyle ':completion::complete:*' use-cache 1
+
+zstyle ':completion:*' completer _extensions _complete _approximate # the order matters
+zstyle ':completion:*' use-cache 1
+zstyle ':completion:*' cache-path "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/.zcompcache"
+zstyle ':completion:*' squeeze-slashes true
 zstyle ':completion:*' menu select
 
-#------#
-# opts #
-#------#
+# try completion and if nothing matches, try case-insensitive completion
+zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
+
+# complete partial words
+zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+
+#---------#
+# options #
+#---------#
 
 HISTSIZE=1000000 # the number of items for the internal history list
 SAVEHIST=1000000 # maximum number of items for the history file
@@ -39,11 +62,14 @@ setopt HIST_SAVE_NO_DUPS    # do not save duplicated command
 setopt APPEND_HISTORY       # append the new history to the old when the shell exits
 setopt HIST_VERIFY          # do not execute line immediately after substitution
 
-setopt NO_NOTIFY     # do not immediately notify when a background job finishes
+setopt NO_NOTIFY  # do not immediately notify when a background job finishes
 setopt NO_BEEP
 setopt NO_AUTO_CD
 
+setopt MENU_COMPLETE # Automatically highlight first element of completion menu
 setopt CSH_NULL_GLOB # error only if all patterns do not match and silently ignore non-matching
+
+# globbing
 setopt DOT_GLOB
 setopt EXTENDED_GLOB
 
@@ -75,10 +101,11 @@ PS1="%{%F{cyan}%}[%3~]$%{%F{none}%} "
 PS2="%1_> " # prompt on multiline commands
 
 # https://derrick.blog/2022/12/21/command-timing-in-zsh/
-function convert_time {
+function format_time {
+    local out=""
     local t=$1
-    local d=$((t/1000/60/60/24))
-    local h=$((t/1000/60/60%24))
+    local d=$((t/1000/3600/24))
+    local h=$((t/1000/3600%24))
     local m=$((t/1000/60%60))
     local s=$((t/1000%60))
     # local ms=$((t%1000))
@@ -89,34 +116,35 @@ function convert_time {
     # [[ $ms -gt 0 ]] && echo -n " ${ms}ms"
     echo
 }
-function preexec {
+function _timer_preexec {
     timer=$(($(date +%s%0N)/1000000))
 }
-function precmd {
+function _timer_precmd {
     if [ "$timer" ]; then
         local now=$(($(date +%s%0N)/1000000))
         local elapsed=$now-$timer
         local reset_color=$'\e[00m'
-        RPS1="%F{cyan}$(convert_time "$elapsed")%{$reset_color%}"
+        RPS1="%F{cyan}$(format_time "$elapsed")%{$reset_color%}"
         unset timer
     else
         RPS1=
     fi
-    # # ad-hoc branch in PS1
-    # if git rev-parse --is-inside-work-tree >&/dev/null; then
-    #     # https://stackoverflow.com/a/16925062/33053458
-    #     local branch=$(git name-rev --name-only HEAD)
-    #     if [[ -n "$branch" ]] && [[ $PS1 == $PS1_ORIG ]]; then
-    #         PS1="%{%F{green}%}[${branch}]%{%F{none}%}$PS1"
-    #     fi
-    # else
-    #     PS1=$PS1_ORIG
-    # fi
 }
 
+autoload -Uz add-zsh-hook
+add-zsh-hook preexec _timer_preexec
+add-zsh-hook precmd  _timer_precmd
+
 #---------#
-# exports #
+# plugins #
 #---------#
+
+source <(fzf --zsh)
+source /usr/share/zsh/site-functions/zsh-syntax-highlighting.zsh
+
+#-------------#
+# environment #
+#-------------#
 
 # should be in .zshenv :p
 
@@ -139,9 +167,6 @@ path=(
     $GOPATH/bin
     $HOME/.npm-global/bin
 )
-
-. <(fzf --zsh)
-# . /usr/share/zsh/site-functions/zsh-syntax-highlighting.zsh
 
 #export NVM_DIR="$HOME/.nvm"
 #[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm

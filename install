@@ -2,15 +2,16 @@
 set -e
 
 files=(
-    configs/20-intel.conf               /etc/X11/xorg.conf.d
-    configs/30-libinput-overrides.conf  /etc/X11/xorg.conf.d
-    configs/99-battery.rules            /etc/udev/rules.d
-    configs/99-arduino.rules            /etc/udev/rules.d
-    configs/real-prog-dvorak            /usr/share/X11/xkb/symbols
     .tmux.conf                          ~
     .vimrc                              ~
+    .xinitrc                            ~
     .zshrc                              ~
     alacritty                           ~/.config
+    configs/20-intel.conf               /etc/X11/xorg.conf.d
+    configs/30-libinput-overrides.conf  /etc/X11/xorg.conf.d
+    configs/99-arduino.rules            /etc/udev/rules.d
+    configs/99-battery.rules            /etc/udev/rules.d
+    configs/real-prog-dvorak            /usr/share/X11/xkb/symbols
     dunst                               ~/.config
     lf                                  ~/.config
     picom.conf                          ~/.config
