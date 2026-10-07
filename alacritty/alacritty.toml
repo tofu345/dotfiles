@@ -9,7 +9,7 @@ size = 7
 [window]
 dynamic_padding = true
 dynamic_title = true
-opacity = 0.975
+# opacity = 0.975
 padding = { x = 1, y = 1 }
 
 [cursor]

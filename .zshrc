@@ -10,8 +10,9 @@ bindkey '^\' redo # ^/ is undo
 bindkey '^[^x' execute-named-cmd
 
 # https://unix.stackexchange.com/a/250700
+WORDCHARS="" # https://unix.stackexchange.com/a/392199
 function my-backward-kill-word {
-    WORDCHARS="" zle backward-kill-word
+    zle backward-kill-word
 }
 zle -N my-backward-kill-word
 bindkey '^W' my-backward-kill-word
@@ -41,10 +42,6 @@ zstyle ':completion:*' use-cache 1
 zstyle ':completion:*' cache-path "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/.zcompcache"
 zstyle ':completion:*' squeeze-slashes true
 zstyle ':completion:*' menu select
-
-# try completion and if nothing matches, try case-insensitive completion
-zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
-
 # complete partial words
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 
@@ -59,19 +56,16 @@ HISTFILE=~/.zsh_history
 setopt HIST_IGNORE_ALL_DUPS # do not put duplicated command into history list
 setopt HIST_REDUCE_BLANKS   # remove unnecessary blanks
 setopt HIST_SAVE_NO_DUPS    # do not save duplicated command
-setopt APPEND_HISTORY       # append the new history to the old when the shell exits
+setopt INC_APPEND_HISTORY   # each line is added to the history in this way as it is executed
 setopt HIST_VERIFY          # do not execute line immediately after substitution
 
-setopt NO_NOTIFY  # do not immediately notify when a background job finishes
-setopt NO_BEEP
-setopt NO_AUTO_CD
-
-setopt MENU_COMPLETE # Automatically highlight first element of completion menu
-setopt CSH_NULL_GLOB # error only if all patterns do not match and silently ignore non-matching
-
-# globbing
+setopt CSH_NULL_GLOB        # error only if all patterns do not match and silently ignore non-matching
 setopt DOT_GLOB
 setopt EXTENDED_GLOB
+setopt MENU_COMPLETE        # Automatically highlight first element of completion menu
+setopt NO_AUTO_CD
+setopt NO_BEEP
+setopt NO_NOTIFY            # do not immediately notify when a background job finishes
 
 #---------#
 # aliases #
@@ -141,6 +135,10 @@ add-zsh-hook precmd  _timer_precmd
 
 source <(fzf --zsh)
 source /usr/share/zsh/site-functions/zsh-syntax-highlighting.zsh
+# https://github.com/olets/zsh-window-title
+ZSH_WINDOW_TITLE_COMMAND_PREFIXES=(doas man)
+ZSH_WINDOW_TITLE_DIRECTORY_DEPTH=3
+source $HOME/builds/zsh-window-title/zsh-window-title.zsh
 
 #-------------#
 # environment #

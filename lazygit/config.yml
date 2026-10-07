@@ -1,0 +1,7 @@
+gui:
+  # If true, hunk selection mode will be enabled by default when entering the
+  # staging view.
+  useHunkModeInStagingView: false
+git:
+  diffRenderers:
+    - command: diff-so-fancy

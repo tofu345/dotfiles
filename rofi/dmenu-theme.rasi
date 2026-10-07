@@ -16,6 +16,7 @@ window {
     anchor:     north;
     location:   north;
     width:      100%;
+    height:     25px;
     padding:    4px;
     children:   [ horibox ];
 }

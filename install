@@ -2,7 +2,6 @@
 set -e
 
 files=(
-    .tmux.conf                          ~
     .vimrc                              ~
     .xinitrc                            ~
     .zshrc                              ~
@@ -13,9 +12,11 @@ files=(
     configs/99-battery.rules            /etc/udev/rules.d
     configs/real-prog-dvorak            /usr/share/X11/xkb/symbols
     dunst                               ~/.config
+    lazygit                             ~/.config
     lf                                  ~/.config
     picom.conf                          ~/.config
     rofi                                ~/.config
+    tmux/.tmux.conf                     ~
 )
 dir=$(dirname $(realpath $0))
 
@@ -27,7 +28,7 @@ NC='\x1B[0m'
 for (( i = 0 ; i < ${#files[@]} ; i += 2 )); do
     file="${files[$i]}"
 
-    if [[ ! -e "$file" ]]; then
+    if [[ ! -e "$dir/$file" ]]; then
         echo -e "$RED$dir/$file does not exist$NC"
         continue
     fi

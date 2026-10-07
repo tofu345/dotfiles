@@ -1,4 +1,4 @@
-set hidden
+#set hidden
 set icons
 set incfilter
 set incsearch
@@ -9,5 +9,24 @@ set truncatechar '…'
 
 cmd mkdir %mkdir -p "$@"
 
+nmap <c-r> reload
+nmap H set hidden!
 cmap <c-m> cmd-enter
 cmap <c-h> cmd-delete-back
+
+# https://github.com/gokcehan/lf/wiki/Integrations#eza
+set rulerfile ~/.config/lf/ruler
+cmd on-init   &{{ lf -remote "send $id set user_statfmt \"$(eza -ld --color=always "$f" | sed 's/\\/\\\\/g;s/"/\\"/g')\"" }}
+cmd on-select &{{ lf -remote "send $id set user_statfmt \"$(eza -ld --color=always "$f" | sed 's/\\/\\\\/g;s/"/\\"/g')\"" }}
+
+# https://github.com/gokcehan/lf/wiki/Integrations#ripgrep
+cmd fzf-search ${{
+    cmd="rg --column --line-number --no-heading --color=always --smart-case"
+    fzf --ansi --disabled --layout=reverse --header="Search in files" --delimiter=: \
+        --bind="start:reload([ -n {q} ] && $cmd -- {q} || true)" \
+        --bind="change:reload([ -n {q} ] && $cmd -- {q} || true)" \
+        --bind='enter:become(lf -remote "send $id select \"$(printf "%s" {1} | sed '\''s/\\/\\\\/g;s/"/\\"/g'\'')\"")' \
+        --preview-window='+{2}-/2' \
+        --preview='bat --color=always --highlight-line={2} -- {1}'
+}}
+map gs :fzf-search
