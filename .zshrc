@@ -83,8 +83,10 @@ alias tma="tmux attach"
 alias lg="lazygit";
 alias mv="mv -i"
 alias cp="cp -i"
+alias tree="tree -C"
 alias diff="diff --color=auto"
 alias hist="history -dD"
+alias celar="clear; echo 'celar? skill issue'"
 
 #--------#
 # prompt #
@@ -96,7 +98,6 @@ PS2="%1_> " # prompt on multiline commands
 
 # https://derrick.blog/2022/12/21/command-timing-in-zsh/
 function format_time {
-    local out=""
     local t=$1
     local d=$((t/1000/3600/24))
     local h=$((t/1000/3600%24))
@@ -116,12 +117,12 @@ function _timer_preexec {
 function _timer_precmd {
     if [ "$timer" ]; then
         local now=$(($(date +%s%0N)/1000000))
-        local elapsed=$now-$timer
+        local elapsed=$(($now-$timer))
         local reset_color=$'\e[00m'
         RPS1="%F{cyan}$(format_time "$elapsed")%{$reset_color%}"
         unset timer
-    else
-        RPS1=
+    # else
+    #     RPS1=
     fi
 }
 

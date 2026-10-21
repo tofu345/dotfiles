@@ -25,5 +25,6 @@ dwmblocks &
 gammastep -O 3000 &
 picom -b &
 xwallpaper --zoom ~/Pictures/Wallpapers/wallhaven-christ.png --daemon &
+/usr/libexec/polkit-mate-authentication-agent-1 &
 
 exec dwm
