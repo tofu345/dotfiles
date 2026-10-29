@@ -1,6 +1,11 @@
-[colors]
-primary = { background = "#000000" }
-selection = { background = "#c5c8c6" }
+[general]
+import = [
+    "./themes/kanso_ink.toml"
+]
+
+# [colors]
+# primary = { background = "#000000" }
+# selection = { background = "#c5c8c6" }
 
 [font]
 normal = { family = "CaskaydiaMono Nerd Font Mono", style = "Regular" }
@@ -37,4 +42,5 @@ bindings = [
     { key = "e", mode = "Vi|~Search", action = "WordRightEnd" },
 
     { key = "Space", mods = "Control|Shift", action = "None" },
+    { key = "b", mods = "Control|Shift", action = "None" },
 ]

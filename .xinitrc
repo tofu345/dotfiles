@@ -3,6 +3,7 @@
 exec >& $HOME/.wm.log
 export PATH="$PATH:$HOME/.local/bin"
 export GTK_THEME=Adwaita:dark
+export NO_AT_BRIDGE=1 # disable at-spi-bus-launcher https://bbs.archlinux.org/viewtopic.php?id=237697
 
 userresources=$HOME/.Xresources
 if [ -f "$userresources" ]; then
@@ -14,17 +15,5 @@ if [ -d /etc/X11/xinit/xinitrc.d ]; then
     done
     unset f
 fi
-
-xset s 1200 5 
-xset dpms 1210 1210 1210
-xset r rate 250 25
-xss-lock -n ~/builds/xss-lock-dim-screen2.sh -- slock &
-
-dunst &
-dwmblocks &
-gammastep -O 3000 &
-picom -b &
-xwallpaper --zoom ~/Pictures/Wallpapers/wallhaven-christ.png --daemon &
-/usr/libexec/polkit-mate-authentication-agent-1 &
 
 exec dwm

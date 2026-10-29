@@ -1,0 +1,6 @@
+#!/bin/sh
+PATH="/usr/bin:$PATH"
+runuser -u tofs -- notify-send -u critical "Battery Low, Hibernating in 5 seconds"
+sleep 5
+runuser -u tofs -- notify-send -u critical "Hibernating..."
+loginctl hibernate

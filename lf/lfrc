@@ -30,3 +30,18 @@ cmd fzf-search ${{
         --preview='bat --color=always --highlight-line={2} -- {1}'
 }}
 map gs :fzf-search
+
+# https://github.com/gokcehan/lf/wiki/Integrations#fzf
+cmd fzf_jump ${{
+    res="$(find . -maxdepth 1 -printf '%f\n' | fzf --reverse --header="Jump to location" || true)"
+    if [ -n "$res" ]; then
+        if [ -d "$res" ]; then
+            cmd="cd"
+        else
+            cmd="select"
+        fi
+        res="$(printf '%s' "$res" | sed 's/\\/\\\\/g;s/"/\\"/g')"
+        lf -remote "send $id $cmd \"$res\""
+    fi
+}}
+map <c-f> :fzf_jump

@@ -6,6 +6,7 @@ files=(
     .xinitrc                            ~
     .zshrc                              ~
     alacritty                           ~/.config
+    # bin/low-batt-hibernate              /usr/local/bin
     configs/20-intel.conf               /etc/X11/xorg.conf.d
     configs/30-libinput-overrides.conf  /etc/X11/xorg.conf.d
     configs/99-arduino.rules            /etc/udev/rules.d
@@ -36,9 +37,9 @@ for (( i = 0 ; i < ${#files[@]} ; i += 2 )); do
     echo -ne "$file <- $dest "
 
     if [[ -L "$dest" ]]; then
-        echo -e "${GREEN}ok$NC" # probably
+        echo -e "${GREEN}exists$NC"
     elif [[ -e "$dest" ]]; then
-        echo -e "${RED}! file exists$NC"
+        echo -e "${RED}! regular file exists$NC"
     else
         ln -s "$dir/$file" "$dest" || doas ln -s "$dir/$file" "$dest"
         echo -e "${GREEN}ok$NC"
