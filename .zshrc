@@ -86,14 +86,14 @@ alias cp="cp -i"
 alias tree="tree -C"
 alias diff="diff --color=auto"
 alias hist="history -dD"
-alias celar="clear; echo 'celar? skill issue'"
+alias celar="clear; echo 'celar? cant spell clear? skill issue'"
 
 #--------#
 # prompt #
 #--------#
 
 # inspired by https://github.com/ohmyzsh/ohmyzsh/blob/master/themes/eastwood.zsh-theme
-PS1="%{%F{cyan}%}[%3~]$%{%F{none}%} "
+PS1="%{%F{#a9b1d6}%}[%3~]$%{%F{none}%} "
 PS2="%1_> " # prompt on multiline commands
 
 # https://derrick.blog/2022/12/21/command-timing-in-zsh/

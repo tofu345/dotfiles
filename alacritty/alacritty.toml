@@ -1,11 +1,12 @@
 [general]
 import = [
     "./themes/kanso_ink.toml"
+    # "./themes/olive-crt-dark.toml"
 ]
 
 # [colors]
 # primary = { background = "#000000" }
-# selection = { background = "#c5c8c6" }
+# selection = { background = '#393B44', foreground = '#C5C9C7' }
 
 [font]
 normal = { family = "CaskaydiaMono Nerd Font Mono", style = "Regular" }
